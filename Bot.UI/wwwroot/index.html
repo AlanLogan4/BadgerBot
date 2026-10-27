@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1> Bot Controller </h1>
+    <p>Current tactic: <strong id="tacticDisplay">loading...</strong></p>
+
+    <button onclick="changeTactic('Attack')">Attack</button>
+    <button onclick="changeTactic('Defend')">Defend</button>
+    <button onclick="changeTactic('Expand')">Expand</button>
+
+
+    <script>
+        async function loadTactic() {
+            const response = await fetch('/api/tactic');
+            const data = await response.json();
+            document.getElementById('tacticDisplay').textContent = data.tactic;
+        }
+
+        async function changeTactic(newTactic) {
+            const response = await fetch(`/api/tactic/${newTactic}`, {
+                method: 'POST'
+            });
+            const data = await response.json();
+            document.getElementById('tacticDisplay').textContent = data.tactic;
+        }
+
+        loadTactic();
+    </script>
+</body>
+</html>
